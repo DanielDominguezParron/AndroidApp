@@ -11,14 +11,14 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var myText:TextView
+    private lateinit var myButton:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        val myText:TextView=findViewById(R.id.textView2)
-        myText.text="Veces Pulsadas:"
-        val myButton:Button=findViewById(R.id.btnIncrement)
+        myText=findViewById(R.id.textView2)
+        myButton=findViewById(R.id.btnIncrement)
         var cont=0
         myButton.setOnClickListener {
             cont++
