@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Text">
+        <item name="android:textColor">#F56975</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TextName">
+        <item name="android:textColor">#FFA0BB</item>
+        <item name="android:textColorLink">#F03232</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

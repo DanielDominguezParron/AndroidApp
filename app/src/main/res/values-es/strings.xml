@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="Increment">Incrementar</string>
     <string name="button_pressed">Boton presionado %1$d veces %2$d </string>
+    <string name="City">Ciudad</string>
+    <string name="BirthDate">Birth Date</string>
 </resources>
