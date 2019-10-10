@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         var cont=0
         myButton.setOnClickListener {
             cont++
-            myText.text="Veces Pulsadas:"+cont
+            val message=getString(R.string.button_pressed,cont,cont)
+            myText.text=message
             Toast.makeText(MainActivity@this,"Button pressed!",Toast.LENGTH_SHORT).show()
         }
     }
