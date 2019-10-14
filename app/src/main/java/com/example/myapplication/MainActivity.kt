@@ -17,9 +17,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         val myText:TextView=findViewById(R.id.textView2)
-        myText.text="Hola U-tad"
-        val myButton:Button=findViewById(R.id.button)
+        myText.text="Veces Pulsadas:"
+        val myButton:Button=findViewById(R.id.btnIncrement)
+        var cont=0
         myButton.setOnClickListener {
+            cont++
+            myText.text="Veces Pulsadas:"+cont
             Toast.makeText(MainActivity@this,"Button pressed!",Toast.LENGTH_SHORT).show()
         }
     }
