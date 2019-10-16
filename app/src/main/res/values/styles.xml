@@ -25,7 +25,6 @@
     <style name="TextName">
         <item name="android:textColor">#FFA0BB</item>
         <item name="android:textColorLink">#F03232</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
-
 </resources>
