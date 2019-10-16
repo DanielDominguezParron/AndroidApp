@@ -12,10 +12,10 @@
         android:id="@+id/MovieTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:textAppearance="@style/Text"
         android:textSize="32sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView10"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Image"
         tools:text="Pulp Fiction" />
@@ -55,12 +55,11 @@
         android:id="@+id/Year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="Year"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/Genre"
         app:layout_constraintTop_toBottomOf="@+id/Genre" />
 
     <TextView
@@ -81,12 +80,11 @@
         style="@style/TextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="Genre"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/MovieTitle"
         app:layout_constraintTop_toBottomOf="@+id/MovieTitle" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -99,14 +97,16 @@
         tools:layout_editor_absoluteY="503dp" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/Rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="169dp"
         android:layout_marginEnd="16dp"
         android:text="8.9"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/MovieTitle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/MovieTitle" />
 
     <ImageView
         android:id="@+id/imageView3"
