@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     app:barrierAllowsGoneWidgets="false"
     app:barrierDirection="right"
-    tools:context=".MovieDetailsActivity">
+    tools:context=".UI.MovieDetailsActivity">
 
     <TextView
-        android:id="@+id/MovieTitle"
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -17,11 +17,11 @@
         android:textAppearance="@style/Text"
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Image"
+        app:layout_constraintTop_toBottomOf="@+id/ImageMovie"
         tools:text="Pulp Fiction" />
 
     <ImageView
-        android:id="@+id/Image"
+        android:id="@+id/ImageMovie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -38,7 +38,7 @@
         android:text="Thriller"
         android:textAppearance="@style/Text"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/Genre"
+        app:layout_constraintBaseline_toBaselineOf="@+id/OriginalTitle"
         app:layout_constraintStart_toEndOf="@+id/barrier" />
 
     <TextView
@@ -59,8 +59,8 @@
         android:text="Year"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/Genre"
-        app:layout_constraintTop_toBottomOf="@+id/Genre" />
+        app:layout_constraintStart_toStartOf="@+id/OriginalTitle"
+        app:layout_constraintTop_toBottomOf="@+id/OriginalTitle" />
 
     <TextView
         android:id="@+id/Description"
@@ -76,7 +76,7 @@
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel odio metus. Mauris pellentesque augue est. Donec orci dui, congue vitae tortor nec, posuere euismod velit. Sed nec orci consequat, facilisis tortor et, vehicula lacus. Etiam ultrices eros urna, et sodales arcu sollicitudin quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris facilisis dapibus enim vitae scelerisque. Nam aliquet pulvinar arcu nec vestibulum. Mauris quis tellus porta, condimentum dolor eget, aliquam libero." />
 
     <TextView
-        android:id="@+id/Genre"
+        android:id="@+id/OriginalTitle"
         style="@style/TextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,15 +84,15 @@
         android:text="Genre"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/MovieTitle"
-        app:layout_constraintTop_toBottomOf="@+id/MovieTitle" />
+        app:layout_constraintStart_toStartOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/Title" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="Year,Genre"
+        app:constraint_referenced_ids="Year,OriginalTitle"
         tools:layout_editor_absoluteX="411dp"
         tools:layout_editor_absoluteY="503dp" />
 
@@ -104,9 +104,9 @@
         android:layout_marginEnd="16dp"
         android:text="8.9"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/MovieTitle"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/MovieTitle" />
+        app:layout_constraintStart_toEndOf="@+id/Title" />
 
     <ImageView
         android:id="@+id/imageView3"

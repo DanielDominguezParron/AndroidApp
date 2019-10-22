@@ -1,14 +1,13 @@
 package com.example.myapplication.Model
 
-data class Movie(
+data class MovieDetails(
     var id: Int,
     var title: String,
-    var OriginalTitle: String,
-    var image: String,
-
+    var genreName: String,
+    var overview: String,
     var year: String,
 
-    var rating: Double
+    var popularity: Double
 ) {
 
 

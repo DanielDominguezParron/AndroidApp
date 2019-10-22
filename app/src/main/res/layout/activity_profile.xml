@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".ProfileActivity">
+        tools:context=".UI.ProfileActivity">
 
         <ImageView
             android:id="@+id/imageView"
