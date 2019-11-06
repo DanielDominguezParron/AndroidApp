@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:barrierAllowsGoneWidgets="false"
+    app:barrierDirection="right"
+    tools:context=".UI.MovieDetailsActivity">
+
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/Text"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/ImageMovie"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <ImageView
+        android:id="@+id/ImageMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <TextView
+        android:id="@+id/YearContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Text"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Year"
+        app:layout_constraintStart_toStartOf="@+id/Rating"
+        tools:text="1996" />
+
+    <TextView
+        android:id="@+id/Year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year"
+        android:textAppearance="@style/TextName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ImageMovie"
+        app:layout_constraintStart_toStartOf="@+id/OriginalTitle" />
+
+    <TextView
+        android:id="@+id/OriginalTitle"
+        style="@style/TextName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAppearance="@style/TextName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+        tools:text="Original Title" />
+
+    <TextView
+        android:id="@+id/Rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Title"
+        app:layout_constraintStart_toEndOf="@+id/Title"
+        tools:text="8.9" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

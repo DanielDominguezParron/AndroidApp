@@ -1,11 +1,13 @@
-package com.example.myapplication
+package com.example.myapplication.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.myapplication.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -13,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var myText: TextView
     private lateinit var myButton: Button
     private lateinit var profileButton: Button
+    private lateinit var DetailsButton: Button
+    private lateinit var message: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,6 +24,11 @@ class MainActivity : AppCompatActivity() {
         myText = findViewById(R.id.textView2)
         myButton = findViewById(R.id.btnIncrement)
         profileButton = findViewById(R.id.profileButton)
+        DetailsButton = findViewById(R.id.DetailsButton)
+        DetailsButton.setOnClickListener {
+            val intent = Intent(this, MovieListActivity::class.java)
+            startActivity(intent)
+        }
         profileButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             intent.putExtra("name", "Saitama")
@@ -37,10 +46,43 @@ class MainActivity : AppCompatActivity() {
         }
         var cont = 0
         myButton.setOnClickListener {
+
             cont++
-            val message = getString(R.string.button_pressed, cont, cont)
+            message = getString(R.string.button_pressed, cont, cont)
             myText.text = message
             Toast.makeText(MainActivity@ this, "Button pressed!", Toast.LENGTH_SHORT).show()
         }
+
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("MainActivity", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("MainActivity", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("MainActivity", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("MainActivity", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("MainActivity", "onDestroy")
+    }
+
+    /*override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putString(myText.toString(), message)
+        super.onSaveInstanceState(outState)
+
+    }*/
 }

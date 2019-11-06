@@ -5,4 +5,5 @@
     <string name="button_pressed">Button Pressed %1$d times %2$d  </string>
     <string name="City">City</string>
     <string name="BirthDate">Birth Date</string>
+    <string name="year">Year</string>
 </resources>
