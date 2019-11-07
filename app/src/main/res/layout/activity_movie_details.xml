@@ -13,54 +13,96 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:textAppearance="@style/Text"
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ImageMovie"
+        app:layout_constraintTop_toBottomOf="@+id/backdrop_path"
         tools:text="Pulp Fiction" />
 
     <ImageView
-        android:id="@+id/ImageMovie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:id="@+id/backdrop_path"
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/saitama" />
+        tools:srcCompat="@tools:sample/avatars[10]" />
 
     <TextView
         android:id="@+id/GenreContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Thriller"
+        android:layout_marginStart="24dp"
         android:textAppearance="@style/Text"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/OriginalTitle"
-        app:layout_constraintStart_toEndOf="@+id/barrier" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/Genre"
+        app:layout_constraintStart_toEndOf="@+id/barrier"
+        tools:text="Thriller" />
 
     <TextView
         android:id="@+id/YearContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1996"
         android:textAppearance="@style/Text"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/Year"
-        app:layout_constraintStart_toStartOf="@+id/GenreContent" />
+        app:layout_constraintStart_toStartOf="@+id/GenreContent"
+        tools:text="1996" />
+
+    <TextView
+        android:id="@+id/actorContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Text"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/actor"
+        app:layout_constraintStart_toStartOf="@+id/YearContent"
+        tools:text="actor" />
+
+    <TextView
+        android:id="@+id/directorContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Text"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Director"
+        app:layout_constraintStart_toStartOf="@+id/YearContent"
+        tools:text="director" />
 
     <TextView
         android:id="@+id/Year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Year"
+        android:text="@string/year"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/OriginalTitle"
-        app:layout_constraintTop_toBottomOf="@+id/OriginalTitle" />
+        app:layout_constraintStart_toStartOf="@+id/Genre"
+        app:layout_constraintTop_toBottomOf="@+id/Genre" />
+
+    <TextView
+        android:id="@+id/actor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/actor"
+        android:textAppearance="@style/TextName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/Year"
+        app:layout_constraintTop_toBottomOf="@+id/Year" />
+
+    <TextView
+        android:id="@+id/Director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/director"
+        android:textAppearance="@style/TextName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/actor"
+        app:layout_constraintTop_toBottomOf="@+id/actor" />
 
     <TextView
         android:id="@+id/Description"
@@ -71,17 +113,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Year"
-        app:layout_constraintVertical_bias="0.110000014"
+        app:layout_constraintTop_toBottomOf="@+id/Director"
+        app:layout_constraintVertical_bias="0.17000002"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel odio metus. Mauris pellentesque augue est. Donec orci dui, congue vitae tortor nec, posuere euismod velit. Sed nec orci consequat, facilisis tortor et, vehicula lacus. Etiam ultrices eros urna, et sodales arcu sollicitudin quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris facilisis dapibus enim vitae scelerisque. Nam aliquet pulvinar arcu nec vestibulum. Mauris quis tellus porta, condimentum dolor eget, aliquam libero." />
 
     <TextView
-        android:id="@+id/OriginalTitle"
+        android:id="@+id/Genre"
         style="@style/TextName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Genre"
+        android:text="@string/genre"
         android:textAppearance="@style/TextName"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/Title"
@@ -92,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="Year,OriginalTitle"
+        app:constraint_referenced_ids="Year,Genre"
         tools:layout_editor_absoluteX="411dp"
         tools:layout_editor_absoluteY="503dp" />
 
@@ -102,11 +144,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="169dp"
         android:layout_marginEnd="16dp"
-        android:text="8.9"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Title" />
+        app:layout_constraintStart_toEndOf="@+id/Title"
+        tools:text="8.9" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -117,7 +159,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Description"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.83"
         app:srcCompat="@android:drawable/ic_menu_share" />
 
     <ImageView
@@ -129,6 +171,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/btn_star" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

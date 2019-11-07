@@ -3,63 +3,91 @@ package com.example.myapplication.UI
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.myapplication.Model.Movie
-import com.example.myapplication.Model.MovieDetails
+import com.example.myapplication.Data.RetrofitFactory
+import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movie_details.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieDetailsActivity : AppCompatActivity() {
-    val movie = MovieDetails(
-        id = 1,
-        title = "Pulp Fiction",
-        year = "1996",
-        genreName = "Thriller",
-        overview = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel odio metus. Mauris pellentesque augue est. Donec orci dui, congue vitae tortor nec, posuere euismod velit. Sed nec orci consequat, facilisis tortor et, vehicula lacus. Etiam ultrices eros urna, et sodales arcu sollicitudin quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris facilisis dapibus enim vitae scelerisque. Nam aliquet pulvinar arcu nec vestibulum. Mauris quis tellus porta, condimentum dolor eget, aliquam libero.",
-        popularity = 8.9
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
-        with(movie) {
+        var idWeather = intent.extras?.get("id")
 
-            Title.text = title
-            Year.text = year
-            GenreContent.text = genreName
-            Description.text = overview
-            Rating.text = popularity.toString()
-            Picasso.get()
-                .load("https://toppng.com/public/uploads/preview/resultado-de-imagen-de-saitama-saitama-one-punch-ma-11563016585efxo59slfk.png")
-                .into(
-                    ImageMovie
-                )
+        val weatherApi = RetrofitFactory.getMovieApi()
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = weatherApi.searchMovieDetails(
+                idWeather as Int,
+                "42a33cb748549aa2038e2048e51e01b2"
+            )
+            Log.e("tag", response.toString())
+
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val responseJSON = response.body()!!
+                    details(responseJSON)
+                }
+            }
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = weatherApi.searchCredits(
+                idWeather as Int,
+                "42a33cb748549aa2038e2048e51e01b2"
+            )
+            Log.e("tag", response.toString())
+
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val responseCredits = response.body()!!
+                    cast(responseCredits)
+                }
+            }
         }
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        Log.e("MovieDetails", "onStart")
+    fun details(el: (DetailMovie)) {
+        Title.text = el.original_title
+        YearContent.text = el.release_date
+        Description.text = el.overview
+        genre(el.genres.map { it.name })
+        Rating.text = el.vote_average.toString()
+        val photo = "https://image.tmdb.org/t/p/w500" + el.backdrop_path
+        Log.e("tag", photo)
+        Picasso.get().load(photo).placeholder(R.drawable.ic_launcher_background)
+            .error(R.drawable.ic_launcher_foreground).into(backdrop_path)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.e("MovieDetails", "onResume")
+    fun genre(elto: List<String>) {
+        GenreContent.text = elto.toString()
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.e("MovieDetails", "onPause")
+
+    fun crew(actorDirector: (crew)) {
+        val rol =
+            actorDirector.crew.filter { it.job == "Director" }.map { it.name }.joinToString { "," }
+        directorContent.text = rol
+
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.e("MovieDetails", "onStop")
+
+    fun cast(actorList: (cast)) {
+        val actor1 = actorList.cast.component1()
+
+        detcast(actor1)
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("MovieDetails", "onDestroy")
+    fun detcast(actorName: (detailCast)) {
+        if (actorName.name.isNotEmpty())
+            actorContent.text = actorName.name
+
     }
 }
