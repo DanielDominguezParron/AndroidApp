@@ -3,7 +3,10 @@ package com.example.myapplication.UI
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.myapplication.Data.RetrofitFactory
+import android.widget.ImageView
+import android.widget.Toast
+import com.example.myapplication.Data.DatabaseFactory
+import com.example.myapplication.Data.FavMovies
 import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
@@ -13,47 +16,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailsActivity : AppCompatActivity() {
-
+class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
-        var idWeather = intent.extras?.get("id")
+        var idMovie = intent.extras?.get("id")
+        val database = DatabaseFactory.get(this)
+        val favoritedao = database.favoriteDao()
+        val presenter = MovieDetailsPresenter(this)
+        val api_key = "42a33cb748549aa2038e2048e51e01b2"
+        presenter.movieDetails(idMovie, api_key)
+        presenter.movieCast(idMovie, api_key)
+        val favMoviesDao = favoritedao
+        val favMovie = findViewById(R.id.favMovie) as ImageView
+        favMovie.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                favMoviesDao.insert(FavMovies(text = Title.text.toString()))
 
-        val weatherApi = RetrofitFactory.getMovieApi()
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = weatherApi.searchMovieDetails(
-                idWeather as Int,
-                "42a33cb748549aa2038e2048e51e01b2"
-            )
-            Log.e("tag", response.toString())
-
-
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseJSON = response.body()!!
-                    details(responseJSON)
-                }
-            }
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = weatherApi.searchCredits(
-                idWeather as Int,
-                "42a33cb748549aa2038e2048e51e01b2"
-            )
-            Log.e("tag", response.toString())
-
-
-            withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseCredits = response.body()!!
-                    cast(responseCredits)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Has agregado la pelicula correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
     }
 
-    fun details(el: (DetailMovie)) {
+    override fun openDetails(el: (DetailMovie)) {
         Title.text = el.original_title
         YearContent.text = el.release_date
         Description.text = el.overview
@@ -69,8 +60,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         GenreContent.text = elto.toString()
     }
 
-
-    fun crew(actorDirector: (crew)) {
+    override fun crew(actorDirector: (crew)) {
         val rol =
             actorDirector.crew.filter { it.job == "Director" }.map { it.name }.joinToString { "," }
         directorContent.text = rol
@@ -78,9 +68,8 @@ class MovieDetailsActivity : AppCompatActivity() {
     }
 
 
-    fun cast(actorList: (cast)) {
+    override fun cast(actorList: (cast)) {
         val actor1 = actorList.cast.component1()
-
         detcast(actor1)
 
     }

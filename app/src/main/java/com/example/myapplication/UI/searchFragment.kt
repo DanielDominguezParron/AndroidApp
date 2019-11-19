@@ -7,18 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Data.RetrofitFactory
+import com.example.myapplication.Model.Movie
 import com.example.myapplication.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class searchFragment : Fragment() {
-    private lateinit var movieName: String
+
+class searchFragment : Fragment(), MovieSearchView {
+
+
     private lateinit var moviesRecycler: RecyclerView
+    private lateinit var moviesAdapter: MoviesAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +29,9 @@ class searchFragment : Fragment() {
         moviesRecycler = view.findViewById(R.id.moviesRecyclerView)
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
-        val moviesAdapter = MoviesAdapter {
-            val intent = Intent(context, MovieDetailsActivity::class.java)
-            intent.putExtra("id", it.id)
-            startActivity(intent)
+        val presenter = SearchPresenter(this)
+        moviesAdapter = MoviesAdapter {
+            presenter.cityClicked(it)
         }
         moviesRecycler.adapter = moviesAdapter
         movieSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -41,19 +40,35 @@ class searchFragment : Fragment() {
             }
 
             override fun onQueryTextSubmit(text: String): Boolean {
-                movieName = text
-                val weatherApi = RetrofitFactory.getMovieApi()
-                CoroutineScope(Dispatchers.IO).launch {
-                    val response = weatherApi.searchMovies(movieName)
-                    withContext(Dispatchers.Main) {
-                        moviesAdapter.addCities(response.body()?.results!!)
-                    }
-                }
+                val searchTerm = text
+                presenter.searchClicked(searchTerm)
                 return false
             }
         })
         return view
+
+    }
+
+    override fun showError() {
+        Toast.makeText(this.context, "Error fetching cities", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showEmpty() {
+        //emptyView.visibility = View.VISIBLE
+        moviesRecycler.visibility = View.GONE
     }
 
 
+    override fun openCityDetail(id: Int) {
+        val intent = Intent(this.context, MovieDetailsActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
+    }
+
+    override fun showCities(movies: List<Movie>) {
+        moviesAdapter.addCities(movies)
+
+        moviesRecycler.visibility = View.VISIBLE
+        // emptyView.visibility = View.GONE
+    }
 }
