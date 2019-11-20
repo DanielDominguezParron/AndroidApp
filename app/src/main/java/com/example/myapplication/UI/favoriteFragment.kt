@@ -1,8 +1,10 @@
 package com.example.myapplication.UI
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class favoriteFragment : Fragment(), FavoritesView {
+
+
     private lateinit var favoriteAdapter: FavoritesAdapter
     private lateinit var moviesRecycler: RecyclerView
     private lateinit var presenter: FavoritesPresenter
@@ -32,27 +36,50 @@ class favoriteFragment : Fragment(), FavoritesView {
         moviesRecycler = view.findViewById(R.id.favoriteRecyclerView)
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
-        favoriteAdapter = FavoritesAdapter()
+        favoriteAdapter = FavoritesAdapter(
+            presenter.cityClicked(it)
+        )
+        while (favoriteAdapter.notifyDataSetChanged().equals("true"))
+            presenter.updateListMovies(favoritedao)
+
         moviesRecycler.adapter = favoriteAdapter
 
         val database = DatabaseFactory.get(this.context!!)
         favoritedao = database.favoriteDao()
-        presenter.updateListAdress(favoritedao)
+        presenter.updateListMovies(favoritedao)
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.updateListAdress(favoritedao)
+        presenter.updateListMovies(favoritedao)
+    }
+
+    override fun openCityDetail(id: Int) {
+        val intent = Intent(this.context, MovieDetailsActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.deleteFavs -> {
+            presenter.dropMovies(favoritedao)
+            true
+        }
+        R.id.orderFavs -> {
+
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun showFavorites(favorite: List<FavMovies>) {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-                favoriteAdapter.addMovie(favorite)
-            }
-        }
+        favoriteAdapter.addMovie(favorite)
     }
 }
 

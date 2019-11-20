@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Data.FavMovies
 import com.example.myapplication.R
 
-class FavoritesAdapter: RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
+class FavoritesAdapter(private val listener: (FavMovies) -> Unit) :
+    RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     private var movies = listOf<FavMovies>()
 
@@ -24,21 +25,23 @@ class FavoritesAdapter: RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movies[position])
+        holder.bind(movies[position],listener)
     }
 
-    class ViewHolder private constructor(view: View): RecyclerView.ViewHolder(view) {
+    class ViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
 
         val myText: TextView = view.findViewById(R.id.nombre)
 
 
-        fun bind(movies: FavMovies) {
+        fun bind(movies: FavMovies, listener: (FavMovies) -> Unit) {
             myText.text = movies.text
+            this.itemView.setOnClickListener { listener.invoke(movies) }
         }
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.favs_items, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.favs_items, parent, false)
                 return ViewHolder(view)
             }
         }
