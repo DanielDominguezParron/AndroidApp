@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class FavMovies (
-    val id: Int,
+    @PrimaryKey val id: Int,
     val text :String
 )

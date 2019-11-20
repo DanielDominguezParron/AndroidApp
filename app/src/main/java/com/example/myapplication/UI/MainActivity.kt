@@ -16,11 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater=menuInflater
-        inflater.inflate(R.menu.fav_options,menu)
-        return true
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

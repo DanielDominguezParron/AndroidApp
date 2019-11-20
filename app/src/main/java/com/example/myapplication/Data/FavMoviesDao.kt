@@ -9,8 +9,10 @@ import androidx.room.Query
 interface FavMoviesDao {
     @Query("SELECT * FROM FavMovies")
     suspend fun getAll(): List<FavMovies>
+    
     @Query("DELETE FROM FavMovies")
-    suspend fun deleteAll(): List<FavMovies>
+    fun deleteAll()
+
     @Insert
     suspend fun insert(movies: FavMovies)
 }

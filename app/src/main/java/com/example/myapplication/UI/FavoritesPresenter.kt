@@ -16,19 +16,18 @@ class FavoritesPresenter(val view: FavoritesView) {
 
         }
     }
+
     fun dropMovies(favoritedao: FavMoviesDao) {
 
         CoroutineScope(Dispatchers.IO).launch {
-              favoritedao.deleteAll()
+            favoritedao.deleteAll()
         }
     }
-    fun cityClicked(favoritedao: FavMoviesDao) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val name = favoritedao.getAll()
 
-        }
-
+    fun cityClicked(it: FavMovies) {
+        view.openCityDetail(it.id)
     }
+
 }
 
 interface FavoritesView {

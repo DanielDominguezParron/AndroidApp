@@ -2,11 +2,8 @@ package com.example.myapplication.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Data.DatabaseFactory
@@ -15,10 +12,8 @@ import com.example.myapplication.Data.FavMoviesDao
 
 
 import com.example.myapplication.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import android.view.MenuInflater
+
 
 class favoriteFragment : Fragment(), FavoritesView {
 
@@ -37,10 +32,10 @@ class favoriteFragment : Fragment(), FavoritesView {
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
         favoriteAdapter = FavoritesAdapter(
-            presenter.cityClicked(it)
+            presenter.cityClicked(it = id)
         )
-        while (favoriteAdapter.notifyDataSetChanged().equals("true"))
-            presenter.updateListMovies(favoritedao)
+        //while (favoriteAdapter.notifyDataSetChanged().equals("true"))
+        //presenter.updateListMovies(favoritedao)
 
         moviesRecycler.adapter = favoriteAdapter
 
@@ -59,6 +54,11 @@ class favoriteFragment : Fragment(), FavoritesView {
         val intent = Intent(this.context, MovieDetailsActivity::class.java)
         intent.putExtra("id", id)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fav_options, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {

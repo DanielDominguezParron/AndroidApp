@@ -20,7 +20,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
-        var idMovie = intent.extras?.get("id")
+        var idMovie = intent.extras?.getInt("id")
         val database = DatabaseFactory.get(this)
         val favoritedao = database.favoriteDao()
         val presenter = MovieDetailsPresenter(this)
@@ -31,7 +31,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
         val favMovie = findViewById(R.id.favMovie) as ImageView
         favMovie.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                favMoviesDao.insert(FavMovies(text = Title.text.toString()))
+                favMoviesDao.insert(FavMovies(text = Title.text.toString(), id = idMovie!!))
 
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
