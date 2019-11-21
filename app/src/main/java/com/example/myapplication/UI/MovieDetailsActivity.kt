@@ -11,6 +11,7 @@ import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movie_details.*
+import kotlinx.android.synthetic.main.activity_movie_details.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
         val favMoviesDao = favoritedao
         val favMovie = findViewById(R.id.favMovie) as ImageView
         favMovie.setOnClickListener {
+            //presenter.CheckDao(favMoviesDao,)
             CoroutineScope(Dispatchers.IO).launch {
                 favMoviesDao.insert(FavMovies(text = Title.text.toString(), id = idMovie!!))
 

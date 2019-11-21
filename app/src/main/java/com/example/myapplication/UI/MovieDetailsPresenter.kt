@@ -1,8 +1,10 @@
 package com.example.myapplication.UI
 
 import android.util.Log
+import com.example.myapplication.Data.FavMoviesDao
 import com.example.myapplication.Data.RetrofitFactory
 import com.example.myapplication.Model.DetailMovie
+import com.example.myapplication.Model.Movie
 import com.example.myapplication.Model.cast
 import com.example.myapplication.Model.crew
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +52,13 @@ class MovieDetailsPresenter(
                     //view.crew(responseJSON)
                 }
             }
+        }
+    }
+
+    fun CheckDao(favoritedao: FavMoviesDao, movieName: DetailMovie) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val all = favoritedao.getAll()
+            all.filter { it.text.equals(movieName.original_title) }
         }
     }
 

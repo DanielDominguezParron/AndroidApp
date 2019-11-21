@@ -22,21 +22,21 @@ class favoriteFragment : Fragment(), FavoritesView {
     private lateinit var moviesRecycler: RecyclerView
     private lateinit var presenter: FavoritesPresenter
     private lateinit var favoritedao: FavMoviesDao
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
+
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
         presenter = FavoritesPresenter(this)
         moviesRecycler = view.findViewById(R.id.favoriteRecyclerView)
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
-        favoriteAdapter = FavoritesAdapter(
-            presenter.cityClicked(it = id)
-        )
-        //while (favoriteAdapter.notifyDataSetChanged().equals("true"))
-        //presenter.updateListMovies(favoritedao)
-
+        favoriteAdapter = FavoritesAdapter {
+            presenter.movieClicked(it)
+        }
         moviesRecycler.adapter = favoriteAdapter
 
         val database = DatabaseFactory.get(this.context!!)
@@ -50,7 +50,7 @@ class favoriteFragment : Fragment(), FavoritesView {
         presenter.updateListMovies(favoritedao)
     }
 
-    override fun openCityDetail(id: Int) {
+    override fun openMovieDetail(id: Int) {
         val intent = Intent(this.context, MovieDetailsActivity::class.java)
         intent.putExtra("id", id)
         startActivity(intent)
@@ -67,7 +67,7 @@ class favoriteFragment : Fragment(), FavoritesView {
             true
         }
         R.id.orderFavs -> {
-
+            presenter.orderMovies(favoritedao)
             true
         }
 

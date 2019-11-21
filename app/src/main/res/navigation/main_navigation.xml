@@ -7,16 +7,16 @@
     <fragment
         android:id="@+id/fragment_favorite"
         android:name="com.example.myapplication.UI.favoriteFragment"
-        android:label="fragment_favorite"
+        android:label="Favorites"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/fragment_search"
         android:name="com.example.myapplication.UI.searchFragment"
-        android:label="fragment_search"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/fragment_profile"
         android:name="com.example.myapplication.UI.profileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile"/>
 </navigation>
