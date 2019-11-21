@@ -4,17 +4,19 @@ package com.example.myapplication.UI.MovieSearch
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Model.Movie
+import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.R
+import com.squareup.picasso.Picasso
 
-class SearchAdapter(private val listener: (Movie) -> Unit) :
+class SearchAdapter(private val listener: (DetailMovie) -> Unit) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
-    private var movies = listOf<Movie>()
+    private var movies = listOf<DetailMovie>()
 
-    fun addCities(newMovies: List<Movie>) {
+    fun addCities(newMovies: List<DetailMovie>) {
         this.movies = newMovies
         notifyDataSetChanged()
     }
@@ -32,10 +34,20 @@ class SearchAdapter(private val listener: (Movie) -> Unit) :
     }
 
     class ViewHolder private constructor(view: View) : RecyclerView.ViewHolder(view) {
-        private val movieTxt = view.findViewById<TextView>(R.id.cityTxt)
+        private val movieTxt = view.findViewById<TextView>(R.id.movieTxt)
+        private val yearTxt = view.findViewById<TextView>(R.id.year)
+        private val voteAverage = view.findViewById<TextView>(R.id.vote_average)
+        private val Backdrop = view.findViewById<ImageView>(R.id.Backdrop)
 
-        fun bind(movie: Movie, listener: (Movie) -> Unit) {
-            movieTxt.text = movie.title
+
+        fun bind(movie: DetailMovie, listener: (DetailMovie) -> Unit) {
+            movieTxt.text = movie.original_title
+            yearTxt.text = movie.release_date
+            voteAverage.text = movie.vote_average.toString()
+            val photo = "https://image.tmdb.org/t/p/w500" + movie.backdrop_path
+            Picasso.get().load(photo).placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground).into(Backdrop)
+
             this.itemView.setOnClickListener { listener.invoke(movie) }
         }
 

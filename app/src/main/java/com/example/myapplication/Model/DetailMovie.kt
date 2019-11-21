@@ -11,7 +11,6 @@ data class DetailMovie(
 )
 
 data class GenresList(val name: String)
-data class Cast(val cast: List<DetailCast>)
-data class Crew(val crew: List<DetailCrew>)
+data class Cast(val cast: List<DetailCast>,val crew: List<DetailCrew>)
 data class DetailCast(val name: String)
 data class DetailCrew(val name: String, val job: String)

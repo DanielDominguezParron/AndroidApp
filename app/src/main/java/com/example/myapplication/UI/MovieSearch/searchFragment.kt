@@ -10,13 +10,12 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Model.Movie
+import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.R
 import com.example.myapplication.UI.MovieDetails.MovieDetailsActivity
 
 
 class searchFragment : Fragment(), MovieSearchView {
-
 
     private lateinit var moviesRecycler: RecyclerView
     private lateinit var searchAdapter: SearchAdapter
@@ -32,7 +31,7 @@ class searchFragment : Fragment(), MovieSearchView {
         moviesRecycler.setHasFixedSize(true)
         val presenter = SearchPresenter(this)
         searchAdapter = SearchAdapter {
-            presenter.cityClicked(it)
+            presenter.movieClicked(it)
         }
         moviesRecycler.adapter = searchAdapter
         movieSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -51,7 +50,7 @@ class searchFragment : Fragment(), MovieSearchView {
     }
 
     override fun showError() {
-        Toast.makeText(this.context, "Error fetching cities", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this.context, "Error fetching movies", Toast.LENGTH_SHORT).show()
     }
 
     override fun showEmpty() {
@@ -66,7 +65,7 @@ class searchFragment : Fragment(), MovieSearchView {
         startActivity(intent)
     }
 
-    override fun showCities(movies: List<Movie>) {
+    override fun showCities(movies: List<DetailMovie>) {
         searchAdapter.addCities(movies)
 
         moviesRecycler.visibility = View.VISIBLE

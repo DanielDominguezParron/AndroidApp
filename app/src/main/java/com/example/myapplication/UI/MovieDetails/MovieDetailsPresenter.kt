@@ -6,7 +6,6 @@ import com.example.myapplication.Data.FavMoviesDao
 import com.example.myapplication.Data.RetrofitFactory
 import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.Model.Cast
-import com.example.myapplication.Model.Crew
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +48,7 @@ class MovieDetailsPresenter(
                 if (response.isSuccessful) {
                     val responseJSON = response.body()!!
                     view.cast(responseJSON)
+                    view.crew(responseJSON)
                 }
             }
         }
@@ -69,6 +69,7 @@ class MovieDetailsPresenter(
                 }
                 withContext(Dispatchers.Main) {
                     view.insertAlert()
+                    view.yellowStar()
                 }
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -78,6 +79,7 @@ class MovieDetailsPresenter(
                 }
                 withContext(Dispatchers.Main) {
                     view.deleteAlert()
+                    view.clearColorFilter()
                 }
 
             }
@@ -89,7 +91,9 @@ class MovieDetailsPresenter(
 interface MovieDetailsView {
     fun openDetails(el: (DetailMovie))
     fun cast(actorList: (Cast))
-    fun crew(actorDirector: (Crew))
+    fun crew(actorDirector: (Cast))
     fun deleteAlert()
     fun insertAlert()
+    fun yellowStar()
+    fun clearColorFilter()
 }

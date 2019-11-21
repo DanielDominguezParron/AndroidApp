@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.myapplication.Data.DatabaseFactory
 import com.example.myapplication.Model.*
 import com.example.myapplication.R
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_movie_details.*
 
 class MovieDetailsActivity : AppCompatActivity(),
     MovieDetailsView {
+
     private lateinit var name: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,6 @@ class MovieDetailsActivity : AppCompatActivity(),
         genre(el.genres.map { it.name })
         Rating.text = el.vote_average.toString()
         val photo = "https://image.tmdb.org/t/p/w500" + el.backdrop_path
-        Log.e("tag", photo)
         Picasso.get().load(photo).placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_foreground).into(backdrop_path)
     }
@@ -53,17 +54,18 @@ class MovieDetailsActivity : AppCompatActivity(),
         GenreContent.text = elto.toString()
     }
 
-    override fun crew(actorDirector: (Crew)) {
+    override fun crew(actorDirector: (Cast)) {
         val rol =
-            actorDirector.crew.filter { it.job == "Director" }.map { it.name }.joinToString { "," }
+            actorDirector.crew.filter { it.job == "Director" }.map { it.name }.toString()
         directorContent.text = rol
 
     }
 
 
     override fun cast(actorList: (Cast)) {
-        val actor1 = actorList.cast.component1()
-        detcast(actor1)
+        var hola = actorList.cast.map { it.name }
+
+        detcast(hola)
 
     }
 
@@ -82,10 +84,22 @@ class MovieDetailsActivity : AppCompatActivity(),
             Toast.LENGTH_SHORT
         ).show()
     }
+    override fun yellowStar() {
+        favMovie.setColorFilter(ContextCompat.getColor(this, R.color.design_default_color_primary), android.graphics.PorterDuff.Mode.MULTIPLY)
+    }
+    override fun clearColorFilter() {
+        favMovie.clearColorFilter()
+    }
 
-    fun detcast(actorName: (DetailCast)) {
-        if (actorName.name.isNotEmpty())
-            actorContent.text = actorName.name
-
+    fun detcast(actorName: List<String>) {
+        if (actorName.isNotEmpty()) {
+            val a = actorName[0]
+            val b = actorName[1]
+            val c = actorName[2]
+            val d = a.plus(",").plus(b).plus(",").plus(c)
+            actorContent.text = d
+        }
+        else
+            actorContent.text = "No hay actores registrados"
     }
 }

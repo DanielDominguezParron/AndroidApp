@@ -1,7 +1,7 @@
 package com.example.myapplication.UI.MovieSearch
 
 import com.example.myapplication.Data.RetrofitFactory
-import com.example.myapplication.Model.Movie
+import com.example.myapplication.Model.DetailMovie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,14 +37,14 @@ class SearchPresenter(
         }
     }
 
-    fun cityClicked(movie: Movie) {
+    fun movieClicked(movie: DetailMovie) {
         view.openCityDetail(movie.id)
     }
 
 }
 
 interface MovieSearchView {
-    fun showCities(movies: List<Movie>)
+    fun showCities(movies: List<DetailMovie>)
     fun openCityDetail(id: Int)
     fun showError()
     fun showEmpty()
