@@ -1,12 +1,12 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.MovieDetails
 
 import android.util.Log
+import com.example.myapplication.Data.FavMovies
 import com.example.myapplication.Data.FavMoviesDao
 import com.example.myapplication.Data.RetrofitFactory
 import com.example.myapplication.Model.DetailMovie
-import com.example.myapplication.Model.Movie
-import com.example.myapplication.Model.cast
-import com.example.myapplication.Model.crew
+import com.example.myapplication.Model.Cast
+import com.example.myapplication.Model.Crew
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,23 +49,47 @@ class MovieDetailsPresenter(
                 if (response.isSuccessful) {
                     val responseJSON = response.body()!!
                     view.cast(responseJSON)
-                    //view.crew(responseJSON)
                 }
             }
         }
     }
 
-    fun CheckDao(favoritedao: FavMoviesDao, movieName: DetailMovie) {
+    fun CheckDao(favoritedao: FavMoviesDao, idMovie: Int, movieName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val all = favoritedao.getAll()
-            all.filter { it.text.equals(movieName.original_title) }
+            val allList = favoritedao.getAll()
+            val nameMatched = allList.filter { it.title.equals(movieName) }
+            if (nameMatched.isEmpty() || nameMatched.equals(null)) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    favoritedao.insert(
+                        FavMovies(
+                            id = idMovie,
+                            title = movieName
+                        )
+                    )
+                }
+                withContext(Dispatchers.Main) {
+                    view.insertAlert()
+                }
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    favoritedao.deleteByUserId(
+                        idMovie
+                    )
+                }
+                withContext(Dispatchers.Main) {
+                    view.deleteAlert()
+                }
+
+            }
         }
     }
-
 }
+
 
 interface MovieDetailsView {
     fun openDetails(el: (DetailMovie))
-    fun cast(actorList: (cast))
-    fun crew(actorDirector: (crew))
+    fun cast(actorList: (Cast))
+    fun crew(actorDirector: (Crew))
+    fun deleteAlert()
+    fun insertAlert()
 }

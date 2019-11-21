@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.MovieSearch
 
 
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Model.Movie
 import com.example.myapplication.R
 
-class MoviesAdapter(private val listener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class SearchAdapter(private val listener: (Movie) -> Unit) :
+    RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private var movies = listOf<Movie>()
 
@@ -20,7 +20,9 @@ class MoviesAdapter(private val listener: (Movie) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     override fun getItemCount(): Int = movies.size

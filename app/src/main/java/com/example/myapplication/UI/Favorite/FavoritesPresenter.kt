@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.Favorite
 
 import com.example.myapplication.Data.FavMovies
 import com.example.myapplication.Data.FavMoviesDao

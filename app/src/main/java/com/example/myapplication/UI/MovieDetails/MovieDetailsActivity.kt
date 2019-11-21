@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.MovieDetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,18 +6,15 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import com.example.myapplication.Data.DatabaseFactory
-import com.example.myapplication.Data.FavMovies
 import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movie_details.*
-import kotlinx.android.synthetic.main.activity_movie_details.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
+class MovieDetailsActivity : AppCompatActivity(),
+    MovieDetailsView {
+    private lateinit var name: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
@@ -31,22 +28,16 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
         val favMoviesDao = favoritedao
         val favMovie = findViewById(R.id.favMovie) as ImageView
         favMovie.setOnClickListener {
-            //presenter.CheckDao(favMoviesDao,)
-            CoroutineScope(Dispatchers.IO).launch {
-                favMoviesDao.insert(FavMovies(text = Title.text.toString(), id = idMovie!!))
-
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Has agregado la pelicula correctamente",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            presenter.CheckDao(
+                favMoviesDao,
+                idMovie!!,
+                name
+            )
         }
     }
 
     override fun openDetails(el: (DetailMovie)) {
+        name = el.original_title
         Title.text = el.original_title
         YearContent.text = el.release_date
         Description.text = el.overview
@@ -62,7 +53,7 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
         GenreContent.text = elto.toString()
     }
 
-    override fun crew(actorDirector: (crew)) {
+    override fun crew(actorDirector: (Crew)) {
         val rol =
             actorDirector.crew.filter { it.job == "Director" }.map { it.name }.joinToString { "," }
         directorContent.text = rol
@@ -70,13 +61,29 @@ class MovieDetailsActivity : AppCompatActivity(), MovieDetailsView {
     }
 
 
-    override fun cast(actorList: (cast)) {
+    override fun cast(actorList: (Cast)) {
         val actor1 = actorList.cast.component1()
         detcast(actor1)
 
     }
 
-    fun detcast(actorName: (detailCast)) {
+    override fun insertAlert() {
+        Toast.makeText(
+            applicationContext,
+            "Has añadido la pelicula de tu lista de favoritos",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun deleteAlert() {
+        Toast.makeText(
+            applicationContext,
+            "Has quitado la pelicula de tu lista de favoritos",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    fun detcast(actorName: (DetailCast)) {
         if (actorName.name.isNotEmpty())
             actorContent.text = actorName.name
 

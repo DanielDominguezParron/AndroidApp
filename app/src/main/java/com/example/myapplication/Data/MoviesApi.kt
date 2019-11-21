@@ -4,7 +4,7 @@ package com.example.myapplication.Data
 
 import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.Model.MovieResults
-import com.example.myapplication.Model.cast
+import com.example.myapplication.Model.Cast
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -20,7 +20,7 @@ interface MoviesApi {
     suspend fun searchMovieDetails(@Path("movie_id") id: Int, @Query("api_key") api_key: String): Response<DetailMovie>
 
     @GET("movie/{movie_id}/credits")
-    suspend fun searchCredits(@Path("movie_id") id: Int, @Query("api_key") api_key: String): Response<cast>
+    suspend fun searchCredits(@Path("movie_id") id: Int, @Query("api_key") api_key: String): Response<Cast>
 }
 
 

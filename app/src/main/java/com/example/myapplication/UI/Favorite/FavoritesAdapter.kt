@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.Favorite
 
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +19,9 @@ class FavoritesAdapter(private val listener: (FavMovies) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     override fun getItemCount(): Int = movies.size
@@ -34,7 +36,7 @@ class FavoritesAdapter(private val listener: (FavMovies) -> Unit) :
 
 
         fun bind(movies: FavMovies, listener: (FavMovies) -> Unit) {
-            myText.text = movies.text
+            myText.text = movies.title
             this.itemView.setOnClickListener { listener.invoke(movies) }
         }
 

@@ -2,9 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/deleteFavs"
-        android:title="delete favs"
-       />
+        android:title="delete favs" />
     <item
         android:id="@+id/orderFavs"
-        android:title="order" />
+        android:title="order">
+        <menu>
+            <item
+                android:id="@+id/orderName"
+                android:title="Alphabetical Order"></item>
+            <item
+                android:id="@+id/orderYear"
+                android:title="Year Order"></item>
+        </menu>
+    </item>
 </menu>

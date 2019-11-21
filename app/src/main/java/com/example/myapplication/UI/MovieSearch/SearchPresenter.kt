@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.MovieSearch
 
 import com.example.myapplication.Data.RetrofitFactory
 import com.example.myapplication.Model.Movie

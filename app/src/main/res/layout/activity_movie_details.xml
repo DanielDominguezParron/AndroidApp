@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:barrierAllowsGoneWidgets="false"
     app:barrierDirection="right"
-    tools:context=".UI.MovieDetailsActivity">
+    tools:context=".UI.MovieDetails.MovieDetailsActivity">
 
     <TextView
         android:id="@+id/Title"
