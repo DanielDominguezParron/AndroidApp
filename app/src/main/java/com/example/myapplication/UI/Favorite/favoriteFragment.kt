@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.Favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.example.myapplication.Data.FavMoviesDao
 
 import com.example.myapplication.R
 import android.view.MenuInflater
+import com.example.myapplication.UI.MovieDetails.MovieDetailsActivity
 
 
 class favoriteFragment : Fragment(), FavoritesView {
@@ -66,7 +67,7 @@ class favoriteFragment : Fragment(), FavoritesView {
             presenter.dropMovies(favoritedao)
             true
         }
-        R.id.orderFavs -> {
+        R.id.orderName -> {
             presenter.orderMovies(favoritedao)
             true
         }

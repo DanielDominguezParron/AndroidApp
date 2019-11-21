@@ -1,4 +1,4 @@
-package com.example.myapplication.UI
+package com.example.myapplication.UI.MovieSearch
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Model.Movie
 import com.example.myapplication.R
+import com.example.myapplication.UI.MovieDetails.MovieDetailsActivity
 
 
 class searchFragment : Fragment(), MovieSearchView {
 
 
     private lateinit var moviesRecycler: RecyclerView
-    private lateinit var moviesAdapter: MoviesAdapter
+    private lateinit var searchAdapter: SearchAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,10 +31,10 @@ class searchFragment : Fragment(), MovieSearchView {
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
         val presenter = SearchPresenter(this)
-        moviesAdapter = MoviesAdapter {
+        searchAdapter = SearchAdapter {
             presenter.cityClicked(it)
         }
-        moviesRecycler.adapter = moviesAdapter
+        moviesRecycler.adapter = searchAdapter
         movieSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(query: String?): Boolean {
                 return false
@@ -66,7 +67,7 @@ class searchFragment : Fragment(), MovieSearchView {
     }
 
     override fun showCities(movies: List<Movie>) {
-        moviesAdapter.addCities(movies)
+        searchAdapter.addCities(movies)
 
         moviesRecycler.visibility = View.VISIBLE
         // emptyView.visibility = View.GONE
