@@ -10,6 +10,9 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Data.Remote.RemoteRepository
+import com.example.myapplication.Data.Remote.RetrofitFactory
+import com.example.myapplication.Data.Remote.RetrofitRemoteRepository
 import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.R
 import com.example.myapplication.UI.MovieDetails.MovieDetailsActivity
@@ -26,10 +29,12 @@ class searchFragment : Fragment(), MovieSearchView {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         val movieSearch = view.findViewById<SearchView>(R.id.searchView)
+        val remoteRepository: RemoteRepository =
+            RetrofitRemoteRepository(RetrofitFactory.getMovieApi())
         moviesRecycler = view.findViewById(R.id.moviesRecyclerView)
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
-        val presenter = SearchPresenter(this)
+        val presenter = SearchPresenter(this, remoteRepository)
         searchAdapter = SearchAdapter {
             presenter.movieClicked(it)
         }

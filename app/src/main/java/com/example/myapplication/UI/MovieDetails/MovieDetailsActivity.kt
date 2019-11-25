@@ -2,11 +2,15 @@ package com.example.myapplication.UI.MovieDetails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.example.myapplication.Data.DatabaseFactory
+import com.example.myapplication.Data.Local.DBLocalRepository
+import com.example.myapplication.Data.Local.DatabaseFactory
+import com.example.myapplication.Data.Local.FavMoviesDao
+import com.example.myapplication.Data.Remote.RemoteRepository
+import com.example.myapplication.Data.Remote.RetrofitFactory
+import com.example.myapplication.Data.Remote.RetrofitRemoteRepository
 import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
@@ -16,22 +20,27 @@ class MovieDetailsActivity : AppCompatActivity(),
     MovieDetailsView {
 
     private lateinit var name: String
+    private lateinit var favoritedao: FavMoviesDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
         var idMovie = intent.extras?.getInt("id")
+        val remoteRepository: RemoteRepository =
+            RetrofitRemoteRepository(RetrofitFactory.getMovieApi())
         val database = DatabaseFactory.get(this)
-        val favoritedao = database.favoriteDao()
-        val presenter = MovieDetailsPresenter(this)
+        favoritedao = database.favoriteDao()
+        val localRepository =
+            DBLocalRepository(
+                favoritedao
+            )
+        val presenter = MovieDetailsPresenter(this, remoteRepository, localRepository)
         val api_key = "42a33cb748549aa2038e2048e51e01b2"
         presenter.movieDetails(idMovie, api_key)
         presenter.movieCast(idMovie, api_key)
-        val favMoviesDao = favoritedao
         val favMovie = findViewById(R.id.favMovie) as ImageView
         favMovie.setOnClickListener {
             presenter.CheckDao(
-                favMoviesDao,
                 idMovie!!,
                 name
             )
@@ -84,9 +93,14 @@ class MovieDetailsActivity : AppCompatActivity(),
             Toast.LENGTH_SHORT
         ).show()
     }
+
     override fun yellowStar() {
-        favMovie.setColorFilter(ContextCompat.getColor(this, R.color.design_default_color_primary), android.graphics.PorterDuff.Mode.MULTIPLY)
+        favMovie.setColorFilter(
+            ContextCompat.getColor(this, R.color.design_default_color_primary),
+            android.graphics.PorterDuff.Mode.MULTIPLY
+        )
     }
+
     override fun clearColorFilter() {
         favMovie.clearColorFilter()
     }
@@ -98,8 +112,7 @@ class MovieDetailsActivity : AppCompatActivity(),
             val c = actorName[2]
             val d = a.plus(",").plus(b).plus(",").plus(c)
             actorContent.text = d
-        }
-        else
+        } else
             actorContent.text = "No hay actores registrados"
     }
 }

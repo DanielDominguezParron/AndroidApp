@@ -1,6 +1,6 @@
 package com.example.myapplication.UI.MovieSearch
 
-import com.example.myapplication.Data.RetrofitFactory
+import com.example.myapplication.Data.Remote.RemoteRepository
 import com.example.myapplication.Model.DetailMovie
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -8,25 +8,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SearchPresenter(
-    val view: MovieSearchView
+    val view: MovieSearchView,
+    val remoteRepository: RemoteRepository
 ) {
 
     fun searchClicked(searchTerm: String) {
         if (searchTerm.isEmpty()) return
-        val movieApi = RetrofitFactory.getMovieApi()
         CoroutineScope(Dispatchers.IO).launch {
-            val response = movieApi.searchMovies(searchTerm)
             try {
+                val movies = remoteRepository.searchMovies(searchTerm)
                 withContext(Dispatchers.Main) {
-                    if (response.isSuccessful) {
-                        val movies = response.body()!!
-                        if (movies.results.isEmpty()) {
-                            view.showEmpty()
-                            return@withContext
-                        }
-                        view.showCities(response.body()?.results!!)
-                    } else
-                        view.showError()
+                    if (movies.isEmpty()) {
+                        view.showEmpty()
+                        return@withContext
+                    }
+                    view.showCities(movies)
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {

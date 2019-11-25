@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Data.FavMovies
+import com.example.myapplication.Data.Local.FavMovies
 import com.example.myapplication.R
 
 class FavoritesAdapter(private val listener: (FavMovies) -> Unit) :

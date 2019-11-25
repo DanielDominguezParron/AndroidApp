@@ -1,9 +1,8 @@
 package com.example.myapplication.UI.MovieDetails
 
-import android.util.Log
-import com.example.myapplication.Data.FavMovies
-import com.example.myapplication.Data.FavMoviesDao
-import com.example.myapplication.Data.RetrofitFactory
+import com.example.myapplication.Data.Local.FavMovies
+import com.example.myapplication.Data.Local.LocalRepository
+import com.example.myapplication.Data.Remote.RemoteRepository
 import com.example.myapplication.Model.DetailMovie
 import com.example.myapplication.Model.Cast
 import kotlinx.coroutines.CoroutineScope
@@ -12,70 +11,51 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MovieDetailsPresenter(
-    val view: MovieDetailsView
+    val view: MovieDetailsView,
+    private val remoteRepository: RemoteRepository,
+    private val localRepository: LocalRepository
 ) {
 
-    fun movieDetails(idMovie: Any?, api_key: String) {
-        val movieApi = RetrofitFactory.getMovieApi()
+    fun movieDetails(idMovie: Int?, api_key: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = movieApi.searchMovieDetails(
-                idMovie as Int,
-                api_key
-            )
-            Log.e("tag", response.toString())
 
-
+            val movie = remoteRepository.getMovieDetail(idMovie!!, api_key)
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseJSON = response.body()!!
-                    view.openDetails(responseJSON)
-                }
+                view.openDetails(movie)
             }
         }
     }
 
-    fun movieCast(idMovie: Any?, api_Key: String) {
-        val movieApi = RetrofitFactory.getMovieApi()
+    fun movieCast(idMovie: Int?, api_key: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = movieApi.searchCredits(
-                idMovie as Int,
-                api_Key
-            )
-            Log.e("tag", response.toString())
 
-
+            val movie = remoteRepository.getCast(idMovie!!, api_key)
             withContext(Dispatchers.Main) {
-                if (response.isSuccessful) {
-                    val responseJSON = response.body()!!
-                    view.cast(responseJSON)
-                    view.crew(responseJSON)
-                }
+                view.cast(movie)
+                view.crew(movie)
             }
         }
     }
 
-    fun CheckDao(favoritedao: FavMoviesDao, idMovie: Int, movieName: String) {
+    fun CheckDao(idMovie: Int, name: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val allList = favoritedao.getAll()
-            val nameMatched = allList.filter { it.title.equals(movieName) }
+            val allList = localRepository.updateListMovies()
+            val nameMatched = allList.filter { it.title.equals(name) }
             if (nameMatched.isEmpty() || nameMatched.equals(null)) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    favoritedao.insert(
-                        FavMovies(
-                            id = idMovie,
-                            title = movieName
-                        )
+                localRepository.insert(
+                    FavMovies(
+                        id = idMovie,
+                        title = name
                     )
-                }
+                )
+
                 withContext(Dispatchers.Main) {
                     view.insertAlert()
                     view.yellowStar()
                 }
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
-                    favoritedao.deleteByUserId(
-                        idMovie
-                    )
+                    localRepository.deleteByUserId(idMovie)
                 }
                 withContext(Dispatchers.Main) {
                     view.deleteAlert()

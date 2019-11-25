@@ -6,13 +6,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Data.DatabaseFactory
-import com.example.myapplication.Data.FavMovies
-import com.example.myapplication.Data.FavMoviesDao
+import com.example.myapplication.Data.Local.DatabaseFactory
+import com.example.myapplication.Data.Local.FavMovies
+import com.example.myapplication.Data.Local.FavMoviesDao
 
 
 import com.example.myapplication.R
 import android.view.MenuInflater
+import com.example.myapplication.Data.Local.DBLocalRepository
 import com.example.myapplication.UI.MovieDetails.MovieDetailsActivity
 
 
@@ -31,7 +32,13 @@ class favoriteFragment : Fragment(), FavoritesView {
         setHasOptionsMenu(true)
 
         val view = inflater.inflate(R.layout.fragment_favorite, container, false)
-        presenter = FavoritesPresenter(this)
+        val database = DatabaseFactory.get(this.context!!)
+        favoritedao = database.favoriteDao()
+        val localRepository =
+            DBLocalRepository(
+                favoritedao
+            )
+        presenter = FavoritesPresenter(this, localRepository)
         moviesRecycler = view.findViewById(R.id.favoriteRecyclerView)
         moviesRecycler.layoutManager = LinearLayoutManager(this.context)
         moviesRecycler.setHasFixedSize(true)
@@ -39,16 +46,13 @@ class favoriteFragment : Fragment(), FavoritesView {
             presenter.movieClicked(it)
         }
         moviesRecycler.adapter = favoriteAdapter
-
-        val database = DatabaseFactory.get(this.context!!)
-        favoritedao = database.favoriteDao()
-        presenter.updateListMovies(favoritedao)
+        presenter.updateListMovies()
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        presenter.updateListMovies(favoritedao)
+        presenter.updateListMovies()
     }
 
     override fun openMovieDetail(id: Int) {
@@ -64,11 +68,12 @@ class favoriteFragment : Fragment(), FavoritesView {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.deleteFavs -> {
-            presenter.dropMovies(favoritedao)
+            presenter.dropMovies()
             true
         }
         R.id.orderName -> {
-            presenter.orderMovies(favoritedao)
+            presenter.orderMovies()
+            presenter.updateListMovies()
             true
         }
 

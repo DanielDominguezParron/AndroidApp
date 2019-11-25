@@ -1,35 +1,32 @@
 package com.example.myapplication.UI.Favorite
 
-import com.example.myapplication.Data.FavMovies
-import com.example.myapplication.Data.FavMoviesDao
+import com.example.myapplication.Data.Local.FavMovies
+import com.example.myapplication.Data.Local.LocalRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FavoritesPresenter(val view: FavoritesView) {
-    fun updateListMovies(favoritedao: FavMoviesDao) {
-
+class FavoritesPresenter(val view: FavoritesView, private val localRepository: LocalRepository) {
+    fun updateListMovies() {
         CoroutineScope(Dispatchers.IO).launch {
-            val name = favoritedao.getAll()
+            val name = localRepository.updateListMovies()
             withContext(Dispatchers.Main) {
                 view.showFavorites(name)
             }
         }
     }
 
-
-    fun orderMovies(favoritedao: FavMoviesDao) {
+    fun orderMovies() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            favoritedao.getAll()
+            localRepository.orderMovies()
         }
     }
 
-    fun dropMovies(favoritedao: FavMoviesDao) {
-
+    fun dropMovies() {
         CoroutineScope(Dispatchers.IO).launch {
-            favoritedao.deleteAll()
+            localRepository.dropMovies()
         }
     }
 
