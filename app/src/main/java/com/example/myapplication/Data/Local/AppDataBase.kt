@@ -1,4 +1,4 @@
-package com.example.myapplication.Data
+package com.example.myapplication.Data.Local
 
 import android.content.Context
 import androidx.room.Database
@@ -13,7 +13,7 @@ abstract class AppDataBase : RoomDatabase() {
 object DatabaseFactory {
     fun get(context: Context): AppDataBase {
         return Room
-            .databaseBuilder(context, AppDataBase::class.java, "app_database")
+            .databaseBuilder(context, AppDataBase::class.java, "favs_database")
             .build()
     }
 }

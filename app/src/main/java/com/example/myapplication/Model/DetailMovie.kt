@@ -7,11 +7,10 @@ data class DetailMovie(
     val overview: String,
     val backdrop_path: String,
     val vote_average: Float,
-    val genres: List<genresList>
+    val genres: List<GenresList>
 )
 
-data class genresList(val name: String)
-data class cast(val cast: List<detailCast>)
-data class crew(val crew: List<detailCrew>)
-data class detailCast(val name: String)
-data class detailCrew(val name: String, val job: String)
+data class GenresList(val name: String)
+data class Cast(val cast: List<DetailCast>,val crew: List<DetailCrew>)
+data class DetailCast(val name: String)
+data class DetailCrew(val name: String, val job: String)

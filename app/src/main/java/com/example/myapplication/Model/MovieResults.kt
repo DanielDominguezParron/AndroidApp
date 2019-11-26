@@ -1,11 +1,7 @@
 package com.example.myapplication.Model
 
 data class MovieResults(
-    val results: List<Movie>
+    val results: List<DetailMovie>
 
 )
 
-data class Movie(
-    val id: Int,
-    val title: String
-)
