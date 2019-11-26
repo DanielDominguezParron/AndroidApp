@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Data.Local.DatabaseFactory
 import com.example.myapplication.Data.Local.FavMovies
 import com.example.myapplication.Data.Local.FavMoviesDao
-
-
 import com.example.myapplication.R
 import android.view.MenuInflater
 import com.example.myapplication.Data.Local.DBLocalRepository
@@ -69,14 +67,18 @@ class favoriteFragment : Fragment(), FavoritesView {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.deleteFavs -> {
             presenter.dropMovies()
+            presenter.updateListMovies()
             true
         }
         R.id.orderName -> {
             presenter.orderMovies()
-            presenter.updateListMovies()
             true
         }
+        R.id.orderYear -> {
 
+
+            true
+        }
         else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.

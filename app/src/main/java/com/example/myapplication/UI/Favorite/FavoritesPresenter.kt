@@ -23,7 +23,6 @@ class FavoritesPresenter(val view: FavoritesView, private val localRepository: L
             localRepository.orderMovies()
         }
     }
-
     fun dropMovies() {
         CoroutineScope(Dispatchers.IO).launch {
             localRepository.dropMovies()

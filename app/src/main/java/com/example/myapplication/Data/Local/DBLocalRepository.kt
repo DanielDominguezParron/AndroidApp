@@ -1,9 +1,5 @@
 package com.example.myapplication.Data.Local
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
 class DBLocalRepository(val favoritedao: FavMoviesDao) : LocalRepository {
     override suspend fun deleteByUserId(userId: Int) {
         favoritedao.deleteByUserId(userId)

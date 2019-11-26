@@ -151,7 +151,7 @@
         tools:text="8.9" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/openNav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -169,11 +169,11 @@
         android:background="#00DD2323"
         android:filterTouchesWhenObscured="false"
         android:tint="#00421111"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/openNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/openNav"
+        app:layout_constraintTop_toTopOf="@+id/openNav"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/btn_star" />
 

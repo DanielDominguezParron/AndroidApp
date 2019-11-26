@@ -40,12 +40,12 @@ class MovieDetailsPresenter(
     fun CheckDao(idMovie: Int, name: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val allList = localRepository.updateListMovies()
-            val nameMatched = allList.filter { it.title.equals(name) }
+            val nameMatched = allList.filter { it.original_title.equals(name) }
             if (nameMatched.isEmpty() || nameMatched.equals(null)) {
                 localRepository.insert(
                     FavMovies(
                         id = idMovie,
-                        title = name
+                        original_title = name
                     )
                 )
 

@@ -36,7 +36,7 @@ class FavoritesAdapter(private val listener: (FavMovies) -> Unit) :
 
 
         fun bind(movies: FavMovies, listener: (FavMovies) -> Unit) {
-            myText.text = movies.title
+            myText.text = movies.original_title
             this.itemView.setOnClickListener { listener.invoke(movies) }
         }
 

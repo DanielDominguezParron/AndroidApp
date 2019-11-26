@@ -15,6 +15,9 @@ import com.example.myapplication.Model.*
 import com.example.myapplication.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movie_details.*
+import android.content.Intent
+import android.net.Uri
+
 
 class MovieDetailsActivity : AppCompatActivity(),
     MovieDetailsView {
@@ -38,6 +41,16 @@ class MovieDetailsActivity : AppCompatActivity(),
         val api_key = "42a33cb748549aa2038e2048e51e01b2"
         presenter.movieDetails(idMovie, api_key)
         presenter.movieCast(idMovie, api_key)
+        val webpag = findViewById(R.id.openNav) as ImageView
+        webpag.setOnClickListener {
+            // TODO Auto-generated method stub
+            val url = "https://es.wikipedia.org/wiki/$name"
+
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+
+        }
         val favMovie = findViewById(R.id.favMovie) as ImageView
         favMovie.setOnClickListener {
             presenter.CheckDao(
@@ -96,7 +109,7 @@ class MovieDetailsActivity : AppCompatActivity(),
 
     override fun yellowStar() {
         favMovie.setColorFilter(
-            ContextCompat.getColor(this, R.color.design_default_color_primary),
+            ContextCompat.getColor(this, R.color.yellow),
             android.graphics.PorterDuff.Mode.MULTIPLY
         )
     }
